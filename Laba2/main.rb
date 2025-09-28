@@ -1,4 +1,5 @@
 def cost(area, material, floor, district, style, category)
+  #Обчислення собівартості (SV)
   sv = case material.downcase
        when "панель", "panel"        then area * 300
        when "цегла", "brick"         then area * 500
@@ -6,12 +7,13 @@ def cost(area, material, floor, district, style, category)
        else
          raise "Невідомий матеріал"
        end
+  #Коефіцієнт поверху
   floor_coeff = if [1, 2].include?(floor) || floor >= 8
                   1.1
                 else
                   1.4
                 end
-
+  #Коефіцієнт району
   district_coeff = case district.downcase
                    when "центр"      then 1.7
                    when "спальний"   then 1.4
@@ -19,10 +21,12 @@ def cost(area, material, floor, district, style, category)
                    else
                      raise "Невідомий район"
                    end
-
+  #Попередня вартість
   rm = sv * floor_coeff * district_coeff
 
   # === Прибуток забудовника (case) ===
+
+  #Коефіцієнт архітектурного стилю
   arch_coeff = case style.downcase
                when "хайтех"     then 2.0
                when "ексклюзів"  then 1.7
@@ -32,9 +36,10 @@ def cost(area, material, floor, district, style, category)
                  raise "Невідомий стиль"
                end
 
+  #ПЗ = вартість із урахуванням архітектурного стилю.
   pz = rm * arch_coeff
 
-  # === Загальна вартість (case) ===
+  #Коефіцієнт категорії
   tax_coeff = case category.downcase
               when "елітна"    then 1.75
               when "бюджетна"  then 1.5
