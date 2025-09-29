@@ -1,14 +1,11 @@
 
-# ------------------------------
-# 1. Ідентифікатори типів (int, char, float, double) → UPCASE
 def upcase_type_keywords(lines)
   lines.map do |ln|
     ln.gsub(/\b(?:int|char|float|double)\b/i) { |m| m.upcase }
   end
 end
 
-# ------------------------------
-# 2. Директиви препроцесора: '#' → '_', прописні символи → UPCASE
+
 def transform_preprocessor_directives(lines)
   lines.map do |ln|
     if ln =~ /^\s*#/
@@ -19,16 +16,13 @@ def transform_preprocessor_directives(lines)
   end
 end
 
-# ------------------------------
-# 3. Ключові слова циклів (while, do, for) → UPCASE
+
 def upcase_loop_keywords(lines)
   lines.map do |ln|
     ln.gsub(/\b(?:while|do|for)\b/i) { |m| m.upcase }
   end
 end
 
-# ------------------------------
-# 4. Числові константи → decimal, octagonal, hexagonal
 def replace_integer_constants(lines)
   pattern = /\b(?:0[xX][0-9a-fA-F]+|0[0-7]*|[1-9][0-9]*)\b/
   lines.map do |ln|
@@ -56,7 +50,6 @@ def analyze_function_header(lines)
     standard = %w[void int char float double]
 
     if params_str.empty? || params_str.strip == "void"
-      # Жодних параметрів
     else
       params = params_str.split(",").map(&:strip)
       params.each do |p|
@@ -75,8 +68,6 @@ def analyze_function_header(lines)
   end
 end
 
-# ------------------------------
-# 6. Замінити комплексні числа формату "Re +/- i*Im" → complex
 def replace_complex_numbers(lines)
   pattern = /
     (?<![\w.])
