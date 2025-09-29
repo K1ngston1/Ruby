@@ -15,7 +15,7 @@ tasks = [
   {
     title: "2. Список та кількість унікальних клієнтів",
     action: -> {
-      clients = (ba + al).uniq
+      clients = (ba | al)
       "Список клієнтів: #{clients}, Кількість клієнтів: #{clients.size}"
     }
   },
